@@ -1,0 +1,107 @@
+ip netns add C1
+ip netns add C2
+ip netns add C3
+ip netns add S1
+ip netns add R1
+ip netns add R2
+ip netns add S2
+ip netns add C4
+ip netns add C5
+ip netns add C6
+
+ip link add S1 type bridge
+ip link set dev S1 up
+
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+ip link add type veth
+
+
+ip link set dev veth1 netns C1 up
+ip netns exec C1 ip link set dev veth1 name net0
+ip netns exec C1 ip addr add 10.1.0.11/24 dev net0
+ip netns exec C1 ip link set dev net0 up
+
+ip link set dev veth0 master S1
+ip link set dev veth0 up
+
+ip link set dev veth3 netns C2 up
+ip netns exec C2 ip link set dev veth3 name net0
+ip netns exec C2 ip addr add 10.1.0.12/24 dev net0
+ip netns exec C2 ip link set dev net0 up
+
+ip link set dev veth2 master S1
+ip link set dev veth2 up
+
+ip link set dev veth5 netns C3
+ip netns exec C3 ip link set dev veth5 name net0
+ip netns exec C3 ip addr add 10.1.0.13/24 dev net0
+ip netns exec C3 ip link set dev net0 up
+
+ip link set dev veth4 master S1
+ip link set dev veth4 up
+
+
+
+
+ip link add S2 type bridge
+ip link set dev S2 up
+
+ip link add type veth
+ip link add type veth
+ip link add type veth
+
+ip link set dev veth7 netns C4
+ip netns exec C4 ip link set dev veth7 name net0
+ip netns exec C4 ip addr add 10.2.0.14/24 dev net0
+ip netns exec C4 ip link set dev net0 up
+
+ip link set dev veth6 master S2
+ip link set dev veth6 up
+
+ip link set dev veth9 netns C5
+ip netns exec C5 ip link set dev veth9 name net0
+ip netns exec C5 ip addr add 10.2.0.15/24 dev net0
+ip netns exec C5 ip link set dev net0 up
+
+ip link set dev veth8 master S2
+ip link set dev veth8 up
+
+ip link set dev veth11 netns C6
+ip netns exec C6 ip link set dev veth11 name net0
+ip netns exec C6 ip addr add 10.2.0.16/24 dev net0
+ip netns exec C6 ip link set dev net0 up
+
+ip link set dev veth10 master S2
+ip link set dev veth10 up
+
+brctl show
+
+ip link set veth13 netns R1
+ip link set veth12 netns S1
+ip link set veth15 netns R2
+ip link set veth14 netns S2
+ip netns exec S1 ip link set veth12 up
+ip netns exec S2 ip link set veth14 up
+ip netns exec R1 ip addr add 10.1.0.1/24 dev veth13
+ip netns exec R2 ip addr add 10.2.0.1/24 dev veth15
+ip netns exec R1 ip link set dev veth13 name net1
+ip netns exec R2 ip link set dev veth15 name net1
+
+ip link add type veth
+ip link set veth16 netns R1
+ip link set veth17 netns R2
+ip netns exec R1 ip addr add 2001:1::1/64 dev veth16
+ip netns exec R2 ip addr add 2001:1::2/64 dev veth17
+ip netns exec R1 ip link set dev veth16 name net0
+ip netns exec R2 ip link set dev veth17 name net0
+
+ip netns exec R1 ip link set net0 up
+ip netns exec R2 ip link set net0 up
