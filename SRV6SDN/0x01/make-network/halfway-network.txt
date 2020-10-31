@@ -1,10 +1,13 @@
+set-x
+
+# add netns
 ip netns add C1
 ip netns add C2
 ip netns add C3
-ip netns add S1
+brctl addbr S2
 ip netns add R1
 ip netns add R2
-ip netns add S2
+brctl addbr S2
 ip netns add C4
 ip netns add C5
 ip netns add C6
