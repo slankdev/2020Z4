@@ -111,12 +111,16 @@ sudo ip netns exec C2 ip route add 0.0.0.0/0 via 10.2.0.1
 
 sudo ip netns exec R1 ip route add 10.3.0.0/24 via 10.255.1.2
 sudo ip netns exec R1 ip route add 10.4.0.0/24 via 10.255.1.2
+sudo ip netns exec R1 ip route add 10.255.5.0/24 via 10.255.4.2
+sudo ip netns exec R1 ip route add 10.255.3.0/24 via 10.255.2.2
 
 sudo ip netns exec C3 ip route add 0.0.0.0/0 via 10.3.0.1
 sudo ip netns exec C4 ip route add 0.0.0.0/0 via 10.4.0.1
 
 sudo ip netns exec R2 ip route add 10.1.0.0/24 via 10.255.1.1
 sudo ip netns exec R2 ip route add 10.2.0.0/24 via 10.255.1.1
+sudo ip netns exec R2 ip route add 10.255.4.0/24 via 10.255.5.2
+sudo ip netns exec R2 ip route add 10.255.2.0/24 via 10.255.3.2
 
 sudo ip netns exec R3 ip route add 10.3.0.0/24 via 10.255.3.1
 sudo ip netns exec R3 ip route add 10.4.0.0/24 via 10.255.3.1
