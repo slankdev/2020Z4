@@ -70,9 +70,15 @@ sudo ip netns exec C4 ip link set lo up
 # ルーティング有効化
 sudo ip netns exec C1 ip route add 0.0.0.0/0 via 10.1.0.1
 sudo ip netns exec C2 ip route add 0.0.0.0/0 via 10.2.0.1
-sudo ip netns exec R1 ip route add 0.0.0.0/0 via 10.255.1.2
+
+sudo ip netns exec R1 ip route add 10.3.0.0/24 via 10.255.1.2
+sudo ip netns exec R1 ip route add 10.4.0.0/24 via 10.255.1.2 
 
 sudo ip netns exec C3 ip route add 0.0.0.0/0 via 10.3.0.1
 sudo ip netns exec C4 ip route add 0.0.0.0/0 via 10.4.0.1
+
+sudo ip netns exec R2 ip route add 10.1.0.0/24 via 10.255.1.1
+sudo ip netns exec R2 ip route add 10.2.0.0/24 via 10.255.1.1
+
 sudo ip netns exec R1 sysctl -w net.ipv4.ip_forward=1
 sudo ip netns exec R2 sysctl -w net.ipv4.ip_forward=1
