@@ -77,8 +77,8 @@ sudo ip netns exec R2 ip link set R2_net1 up
 sudo ip netns exec R2 ip link set R2_net2 up
 sudo ip netns exec R2 ip link set R2_net3 up
 
-sudo ip netns exec R3 ip link set R2_net0 up
-sudo ip netns exec R3 ip link set R2_net1 up
+sudo ip netns exec R3 ip link set R3_net0 up
+sudo ip netns exec R3 ip link set R3_net1 up
 
 sudo ip netns exec C3 ip link set C3_net0 up
 sudo ip netns exec C4 ip link set C4_net0 up
@@ -90,7 +90,6 @@ sudo ip netns exec C1 ip route add 0.0.0.0/0 via 10.1.0.1
 sudo ip netns exec C2 ip route add 0.0.0.0/0 via 10.2.0.1
 
 sudo ip netns exec R1 ip route add 10.3.0.0/24 via 10.255.1.2
-sudo ip netns exec R1 ip route add 10.4.0.0/24 via 10.255.1.2
 sudo ip netns exec R1 ip route add 10.4.0.0/24 via 10.255.1.2
 
 sudo ip netns exec C3 ip route add 0.0.0.0/0 via 10.3.0.1
