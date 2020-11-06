@@ -28,7 +28,7 @@ static void parse(const void* ptr, size_t len)
 	return;
 }
 
-static void adddel_route(int fd, const char *dststr, const char *gwstr, uint32_t oif, bool is_add)
+static void adddel_route(int fd, const char *dststr, const char *tablestr, uint32_t oif, bool is_add)
 {
 	struct {
 		struct nlmsghdr n;
@@ -55,19 +55,20 @@ static void adddel_route(int fd, const char *dststr, const char *gwstr, uint32_t
 	addattr_l(&req.n, sizeof(req), RTA_DST, &prefix, sizeof(struct in_addr));
 
 	/* set RTA_GATEWAY */
-	struct in_addr gw;
-	inet_pton(AF_INET, gwstr, &gw);
-	addattr_l(&req.n, sizeof(req),
-		  RTA_GATEWAY, &gw,
-		  sizeof(struct in_addr));
+	//struct in_addr gw;
+	//inet_pton(AF_INET, gwstr, &gw);
+	//addattr_l(&req.n, sizeof(req),
+	//	  RTA_GATEWAY, &gw,
+	//	  sizeof(struct in_addr));
 
 	/* set RTA_OIF */
 	uint32_t oif_idx = oif;
 	addattr32(&req.n, sizeof(req), RTA_OIF, oif_idx);
 
 	/* set RTA_TABLE */
-	uint32_t table = 254;
-	addattr32(&req.n, sizeof(req), RTA_TABLE, table);
+	struct in_addr table;
+	inet_pton(AF_INET, tablestr, &table);
+	addattr_l(&req.n, sizeof(req), RTA_TABLE, &table, sizeof(struct in_addr));
 
 	/* submit request */
 	char buf[10000];
@@ -83,6 +84,12 @@ static void adddel_route(int fd, const char *dststr, const char *gwstr, uint32_t
 int main(int argc, char** argv)
 {
 	int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);
-	adddel_route(fd, "2.2.2.2", "10.231.160.1", 2, true);
+	if (!strcmp(argv[1], "ip_route_add")) {
+		adddel_route(fd, argv[3], argv[2], 2, true);
+	}
+	else if (!strcmp(argv[1], "ip_route_del")) {
+		adddel_route(fd, argv[3], argv[2], 2, false);
+	}
+	
 	close(fd);
 }
