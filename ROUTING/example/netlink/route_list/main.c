@@ -69,15 +69,18 @@ static void parse(const void* ptr, size_t len)
 		}
 
 		if (tb[RTA_TABLE]) {
+			char str[256];
 			uint32_t val = rta_getattr_u32(tb[RTA_TABLE]);
-			printf("RTA_TABLE %u\n", val);
+			inet_ntop(AF_INET, &val, str, sizeof(str));
+			printf("RTA_TABLE %s\n", str);
 			tb[RTA_TABLE] = NULL;
 		}
 
+
 		// FOR_DEBUGGING
-		/* for (size_t i=0; i<100; i++) */
-		/* 	if (tb[i]) */
-		/* 		printf("found i=%zd\n", i); */
+		 //for (size_t i=0; i<100; i++) 
+		 //	if (tb[i]) 
+		//		printf("found i=%zd\n", i); 
 
 		ptr0 = (ptr0 + msg->n.nlmsg_len);
 	}
