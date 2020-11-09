@@ -5,8 +5,8 @@ ip netns add F3
 ip netns add R3
 
 ip -all netns exec ip link set lo up
-ip link add net2 netns R1 type veth peer name net0 netns R3
-ip link add net2 netns R2 type veth peer name net4 netns R3
+ip link add net2 netns R1 type veth peer name net4 netns R3
+ip link add net2 netns R2 type veth peer name net0 netns R3
 ip link add net0 netns F1 type veth peer name net1 netns R3
 ip link add net0 netns F2 type veth peer name net2 netns R3
 ip link add net0 netns F3 type veth peer name net3 netns R3
