@@ -31,3 +31,4 @@ ip -n F2 link set net0 up
 ip -n F2 addr add 2001:5::1/64 dev net0
 ip -n F3 link set net0 up
 ip -n F3 addr add 2001:6::1/64 dev net0
+ip netns exec R3 sysctl net.ipv6.conf.all.forwarding=1
